@@ -17,15 +17,20 @@ const Dashboard = () => {
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <ul>
-              {data.teamPlayerOptions.map((player, i) => (
-                <div>
-                  <h4>
-                    {player.firstName} {player.lastName}
-                  </h4>
-                </div>
-              ))}
-            </ul>
+            <>
+              <div className="your-completed-teams">Your resulted teams:</div>
+              <a href="/team">
+                <div className="teamBtn">Melb v WB</div>
+                <div className="teamBtn">16:10 16/03</div>
+              </a>
+              <br />
+              <br />
+              <br />
+              <br />
+              <a href="/create">
+                <div className="create-new-team">Create New Team</div>
+              </a>
+            </>
           )}
         </div>
       </div>

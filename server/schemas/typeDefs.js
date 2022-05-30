@@ -20,7 +20,7 @@ const typeDefs = gql`
 
   type Player {
     _id: ID!
-    playerId: String!
+    player: String!
     firstName: String!
     lastName: String!
     club: String!
@@ -29,7 +29,7 @@ const typeDefs = gql`
 
   type TeamPlayer {
     _id: ID!
-    player_playerId: Player!
+    player: String!
     team: Team!
     stat: Stat!
   }
@@ -61,7 +61,9 @@ const typeDefs = gql`
     user(userId: ID!): User
     me: User
     teamById(teamId: ID!): Team
+    teamPlayerById(teamPlayerId: ID!): TeamPlayer
     teamPlayerOptions(homeClub: String!, awayClub: String!): [Player]
+    playerByCDId(playerId: String!): Player
   }
 
   type Mutation {

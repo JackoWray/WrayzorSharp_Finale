@@ -28,6 +28,12 @@ const resolvers = {
     teamById: async (parent, { teamId }, context) => {
       return await Team.findById(teamId).populate("players");
     },
+    teamPlayerById: async (parent, { teamPlayerId }, context) => {
+      return await TeamPlayer.findById(teamPlayerId);
+    },
+    playerByCDId: async (parent, { playerId }, context) => {
+      return await Player.findOne({ player: playerId });
+    },
     // getAllPlayers: async (parent, args, context) => {
     //   if (context.user) {
     //     return Player.find();

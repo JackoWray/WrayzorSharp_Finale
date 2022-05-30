@@ -33,20 +33,23 @@ export const QUERY_ME = gql`
 `;
 
 export const QUERY_TEAM = gql`
-  query TeamById($teamId: ID!) {
+  query myquery($teamId: ID!) {
     teamById(teamId: $teamId) {
-      _id
-      activeFrom
-      teamName
       players {
         _id
-        player {
-          firstName
-          lastName
-        }
+        player
       }
-      salaryCap
-      points
+    }
+  }
+`;
+
+export const QUERY_TEAM_PLAYERS_CDId = gql`
+  query Query($playerId: String!) {
+    playerByCDId(playerId: $playerId) {
+      firstName
+      lastName
+      club
+      salary
     }
   }
 `;

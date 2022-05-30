@@ -2,8 +2,9 @@ const { Schema, model } = require("mongoose");
 
 const teamPlayerSchema = new Schema({
   player: {
-    type: Schema.Types.String,
-    ref: "Player",
+    type: String,
+    required: true,
+    unique: true,
   },
   team: {
     type: Schema.Types.ObjectId,

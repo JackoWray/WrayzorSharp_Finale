@@ -1,7 +1,7 @@
 const { Schema, model } = require("mongoose");
 
 const playerSchema = new Schema({
-  playerId: {
+  player: {
     type: String,
     required: true,
   },

@@ -3,12 +3,12 @@ const { User, Player, Stat, Team, TeamPlayer } = require("../models");
 const playerSeeds = require("./playerSeeds.json");
 const teamSeed = require("./teamSeed.json");
 const teamPlayerSeed = require("./teamPlayerSeeds.json");
+const { isObjectIdOrHexString } = require("mongoose");
 
 db.once("open", async () => {
   try {
     await User.deleteMany({});
     await Player.deleteMany({});
-    // await Team.deleteMany({});
     await TeamPlayer.deleteMany({});
 
     // await Profile.create(profileSeeds);
@@ -19,7 +19,7 @@ db.once("open", async () => {
         const posStDev = 0;
 
         const newPlayer = new Player({
-          playerId: playerSeeds[i].playerId,
+          player: playerSeeds[i].playerId,
           firstName: playerSeeds[i].playerDetails.givenName,
           lastName: playerSeeds[i].playerDetails.surname,
           club: playerSeeds[i].team.teamName,
@@ -165,7 +165,7 @@ db.once("open", async () => {
         );
 
         const newPlayer = new Player({
-          playerId: playerSeeds[i].playerId,
+          player: playerSeeds[i].playerId,
           firstName: playerSeeds[i].playerDetails.givenName,
           lastName: playerSeeds[i].playerDetails.surname,
           club: playerSeeds[i].team.teamName,
@@ -203,23 +203,44 @@ db.once("open", async () => {
 
     await newUser.save();
 
-    // const newTeam = new Team({
-    //   teamName: teamSeed.teamName,
-    //   players: teamSeed.players,
-    //   score: teamSeed.score,
-    // });
-
-    // await newTeam.save();
-
     for (i = 0; i < 18; i++) {
       const newTeamPlayer = new TeamPlayer({
         player: teamPlayerSeed[i].player,
-        team: "629365174eaa3ae078822c93",
+        team: "62943a624b03c99d2048b60e",
         score: null,
       });
 
       await newTeamPlayer.save();
     }
+
+    // const newTeam = new Team({
+    //   teamName: teamSeed.teamName,
+    //   players: teamSeed.players,
+    //   score: teamSeed.score,
+    //   players: (await TeamPlayer.find()).map((p) => p._playerId),
+    // });
+
+    // await newTeam.save();
+    // const playerId = (await TeamPlayer.find({})).map((p) => p._id);
+    // console.log(playerId, typeof playerId);
+
+    // const playerIDsOnly = playerId.map((p) => p.slice(11, -2));
+    // console.log(playerIDsOnly);
+
+    await Team.findByIdAndUpdate("62943a624b03c99d2048b60e", {
+      $set: {
+        players: [],
+      },
+    });
+
+    await Team.findByIdAndUpdate("62943a624b03c99d2048b60e", {
+      $push: {
+        players: { $each: (await TeamPlayer.find({})).map((p) => p._id) },
+      },
+    });
+
+    const team2Players = await Team.find({}).populate("players");
+    console.log(team2Players);
 
     console.log("all done!");
     process.exit(0);
